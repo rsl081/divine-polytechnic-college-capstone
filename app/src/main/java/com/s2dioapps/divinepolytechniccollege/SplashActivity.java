@@ -9,6 +9,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.s2dioapps.divinepolytechniccollege.login.LoginActivity;
+
 public class SplashActivity extends AppCompatActivity {
 
     private ImageView ivSplash;
