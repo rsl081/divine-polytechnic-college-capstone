@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "895540215755",
+    "project_id": "divinepolytechniccollege-a312c",
+    "storage_bucket": "divinepolytechniccollege-a312c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895540215755:android:e6e1d71f4e70c10bd4804e",
+        "android_client_info": {
+          "package_name": "com.s2dioapps.divinepolytechniccollege"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895540215755-gt251cji8nh4jj3sd840cqnfqa9fk8s3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABoVzjyTVvvgasFgnI5YnOv0MOgYLmzvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895540215755-gt251cji8nh4jj3sd840cqnfqa9fk8s3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
