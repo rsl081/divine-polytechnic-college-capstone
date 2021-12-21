@@ -17,7 +17,14 @@
     <string name="permission_required">Access permission is required</string>
     <string name="save">Save</string>
     <string name="logout">Logout</string>
+    <string name="email_sent_failed">Failed to send email :  %1$s</string>
+    <string name="resend_timer">Resend in : %1$s</string>
     <string name="loading">Please wait...</string>
+    <string name="retry">Retry</string>
+    <string name="close">Close</string>
+    <string name="no_internet">Check Internet Connection</string>
+    <string name="reset_password_instructions">Reset Password instructions has been sent on email :  %1$s</string>
+
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

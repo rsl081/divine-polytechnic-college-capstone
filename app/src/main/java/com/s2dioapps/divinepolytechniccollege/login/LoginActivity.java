@@ -15,6 +15,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.s2dioapps.divinepolytechniccollege.MainActivity;
+import com.s2dioapps.divinepolytechniccollege.NoInternetActivity;
 import com.s2dioapps.divinepolytechniccollege.R;
 import com.s2dioapps.divinepolytechniccollege.common.Util;
 import com.s2dioapps.divinepolytechniccollege.password.ResetPasswordActivity;
@@ -70,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
 
                         } else {
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(LoginActivity.this, "Login Failed : " +
                                     task.getException(), Toast.LENGTH_SHORT).show();
                         }
@@ -78,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             else
             {
-               // startActivity(new Intent(LoginActivity.this, MessageActivity.class));
+                startActivity(new Intent(LoginActivity.this, NoInternetActivity.class));
             }
 
         }
