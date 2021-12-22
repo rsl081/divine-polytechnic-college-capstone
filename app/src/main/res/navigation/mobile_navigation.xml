@@ -2,24 +2,25 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    android:id="@+id/mobile_navigation2"
+    app:startDestination="@+id/nav_home">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.s2dioapps.divinepolytechniccollege.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_home"
+        android:name="com.s2dioapps.divinepolytechniccollege.ui.category.CategoryFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_category" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.s2dioapps.divinepolytechniccollege.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/nav_gallery"
+        android:name="com.s2dioapps.divinepolytechniccollege.ui.leaderboard.LeaderboardFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_leaderboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.s2dioapps.divinepolytechniccollege.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/nav_slideshow"
+        android:name="com.s2dioapps.divinepolytechniccollege.ui.lesson.LessonFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_lesson" />
+
 </navigation>
