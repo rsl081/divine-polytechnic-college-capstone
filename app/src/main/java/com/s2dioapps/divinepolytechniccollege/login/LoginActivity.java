@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.s2dioapps.divinepolytechniccollege.MainActivity;
 import com.s2dioapps.divinepolytechniccollege.NoInternetActivity;
 import com.s2dioapps.divinepolytechniccollege.R;
+import com.s2dioapps.divinepolytechniccollege.common.DbQuery;
+import com.s2dioapps.divinepolytechniccollege.common.MyCompleteListener;
 import com.s2dioapps.divinepolytechniccollege.common.Util;
 import com.s2dioapps.divinepolytechniccollege.password.ResetPasswordActivity;
 import com.s2dioapps.divinepolytechniccollege.signup.SignupActivity;
@@ -36,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         etPassword= findViewById(R.id.etPassword);
 
         progressBar = findViewById(R.id.progressBar);
+
+
 
     }
 
@@ -67,8 +71,24 @@ public class LoginActivity extends AppCompatActivity {
 //                        progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
 
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finish();
+                            DbQuery.loadCategories(new MyCompleteListener() {
+                                @Override
+                                public void onSuccess() {
+
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    finish();
+
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(LoginActivity.this, "Something went wrong : " +
+                                            task.getException(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
 
                         } else {
                             progressBar.setVisibility(View.GONE);
@@ -108,9 +128,23 @@ public class LoginActivity extends AppCompatActivity {
 //                }
 //            });
 
+            progressBar.setVisibility(View.VISIBLE);
+            DbQuery.loadCategories(new MyCompleteListener() {
 
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
+                @Override
+                public void onSuccess() {
+
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+
+                }
+
+                @Override
+                public void onFailure() {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
     }
