@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.s2dioapps.divinepolytechniccollege.R;
+import com.s2dioapps.divinepolytechniccollege.common.DbQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.List;
 public class CategoryFragment extends Fragment {
 
     private GridView catView;
-    private List<CategoryModel> catList = new ArrayList<>();
+
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -32,27 +34,11 @@ public class CategoryFragment extends Fragment {
 
         catView = view.findViewById(R.id.cat_grid);
 
-        loadCategories();
-
-        CategoryAdapter adapter = new CategoryAdapter(catList);
+        CategoryAdapter adapter = new CategoryAdapter(DbQuery.g_catList);
         catView.setAdapter(adapter);
 
         return view;
     }
 
-    private void loadCategories()
-    {
-        catList.clear();
-
-        catList.add(new CategoryModel("1", "MATH", 20));
-        catList.add(new CategoryModel("2", "SCIENCE", 8));
-        catList.add(new CategoryModel("3", "TECH", 3));
-        catList.add(new CategoryModel("4", "EPP", 6));
-        catList.add(new CategoryModel("5", "MAPEH", 1));
-        catList.add(new CategoryModel("5", "MAPEH", 3));
-        catList.add(new CategoryModel("5", "MAPEH", 3));
-        catList.add(new CategoryModel("5", "MAPEH", 3));
-        catList.add(new CategoryModel("5", "MAPEH", 3));
-    }
 
 }
