@@ -1,5 +1,6 @@
 package com.s2dioapps.divinepolytechniccollege.ui.category;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.s2dioapps.divinepolytechniccollege.R;
+import com.s2dioapps.divinepolytechniccollege.common.DbQuery;
+import com.s2dioapps.divinepolytechniccollege.ui.test.TestActivity;
 
 import org.w3c.dom.Text;
 
@@ -36,7 +39,7 @@ public class CategoryAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         View myView;
 
@@ -60,6 +63,20 @@ public class CategoryAdapter extends BaseAdapter {
             noOfTests.setText(String.valueOf(cat_list.get(position).getOnOfTests()) + " Tests");
 
         }
+
+        myView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DbQuery.g_selected_cat_index = position;
+
+                Intent intent = new Intent(v.getContext(), TestActivity.class);
+
+                v.getContext().startActivity(intent);
+
+            }
+        });
+
+
 
 
         return myView;
