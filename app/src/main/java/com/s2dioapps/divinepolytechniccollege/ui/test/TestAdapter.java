@@ -1,5 +1,6 @@
 package com.s2dioapps.divinepolytechniccollege.ui.test;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.s2dioapps.divinepolytechniccollege.R;
+import com.s2dioapps.divinepolytechniccollege.ui.question.QuestionActivity;
 
 import java.util.List;
 
@@ -27,8 +29,6 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.test_item_layout, parent, false);
-
-
 
         return new ViewHolder(view);
     }
@@ -56,6 +56,14 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
             testNo = itemView.findViewById(R.id.testNo);
             topScore = itemView.findViewById(R.id.scoretext);
             progressBar = itemView.findViewById(R.id.testProgressbar);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(itemView.getContext(), QuestionActivity.class);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
 
         private void setData(int pos, int progress)

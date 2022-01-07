@@ -2,25 +2,26 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation2"
-    app:startDestination="@+id/nav_home">
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_category">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/navigation_category"
         android:name="com.s2dioapps.divinepolytechniccollege.ui.category.CategoryFragment"
-        android:label="@string/menu_home"
+        android:label="@string/title_home"
         tools:layout="@layout/fragment_category" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/navigation_leader"
         android:name="com.s2dioapps.divinepolytechniccollege.ui.leaderboard.LeaderboardFragment"
-        android:label="@string/menu_gallery"
+        android:label="@string/title_leaderboard"
         tools:layout="@layout/fragment_leaderboard" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/navigation_lesson"
         android:name="com.s2dioapps.divinepolytechniccollege.ui.lesson.LessonFragment"
-        android:label="@string/menu_slideshow"
+        android:label="@string/title_lesson"
         tools:layout="@layout/fragment_lesson" />
 
 </navigation>
+
