@@ -118,36 +118,36 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if(firebaseUser!=null && Util.connectionAvailable(this))
-        {
-
-//            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+//        if(firebaseUser!=null && Util.connectionAvailable(this))
+//        {
+//
+////            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+////                @Override
+////                public void onSuccess(InstanceIdResult instanceIdResult) {
+////                    Util.updateDeviceToken(LoginActivity.this, instanceIdResult.getToken() );
+////                }
+////            });
+//
+//            progressBar.setVisibility(View.VISIBLE);
+//            DbQuery.loadCategories(new MyCompleteListener() {
+//
 //                @Override
-//                public void onSuccess(InstanceIdResult instanceIdResult) {
-//                    Util.updateDeviceToken(LoginActivity.this, instanceIdResult.getToken() );
+//                public void onSuccess() {
+//
+//                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                    finish();
+//
+//                }
+//
+//                @Override
+//                public void onFailure() {
+//                    progressBar.setVisibility(View.GONE);
+//                    Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 //                }
 //            });
-
-            progressBar.setVisibility(View.VISIBLE);
-            DbQuery.loadCategories(new MyCompleteListener() {
-
-                @Override
-                public void onSuccess() {
-
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
-
-                }
-
-                @Override
-                public void onFailure() {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }else{
-            startActivity(new Intent(LoginActivity.this, NoInternetActivity.class));
-        }
+//
+//        }else{
+//            startActivity(new Intent(LoginActivity.this, NoInternetActivity.class));
+//        }
     }
 }
