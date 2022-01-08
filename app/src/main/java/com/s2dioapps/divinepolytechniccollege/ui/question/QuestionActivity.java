@@ -177,6 +177,18 @@ public class QuestionActivity extends AppCompatActivity {
             }
         });
 
+        submitB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitTest();
+            }
+        });
+
+
+    }
+
+    private void submitTest()
+    {
 
     }
 
