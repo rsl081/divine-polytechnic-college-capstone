@@ -1,25 +1,64 @@
 package com.s2dioapps.divinepolytechniccollege.ui.question;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.s2dioapps.divinepolytechniccollege.R;
 import com.s2dioapps.divinepolytechniccollege.common.DbQuery;
+import com.s2dioapps.divinepolytechniccollege.ui.test.TestModel;
 
 import java.util.concurrent.TimeUnit;
 
+
+
 public class QuestionActivity extends AppCompatActivity {
+
+
+    public class CustomGridLayoutManager extends LinearLayoutManager {
+        private boolean isScrollEnabled = true;
+
+        public CustomGridLayoutManager(Context context) {
+            super(context);
+        }
+
+        public void setScrollEnabled(boolean flag) {
+            this.isScrollEnabled = flag;
+        }
+        public boolean getScrollEnabled()
+        {
+            return isScrollEnabled;
+        }
+
+        @Override
+        public boolean canScrollVertically() {
+            //Similarly you can customize "canScrollHorizontally()" for managing horizontal scroll
+            return isScrollEnabled && super.canScrollVertically();
+        }
+    }
 
     private RecyclerView questionsView;
     private TextView tvQuesID, timerTV, catNameTV;
-    private Button submitB;
+    private Button submitB, nextB;
+    private int quesID;
+    private int countQuestion = 1;
+    boolean isScrollEnable;
+
+    //LinearLayoutManager layoutManager;
+    CustomGridLayoutManager customGridLayoutManager ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +70,15 @@ public class QuestionActivity extends AppCompatActivity {
         QuestionsAdapter questionsAdapter = new QuestionsAdapter(DbQuery.g_questList);
         questionsView.setAdapter(questionsAdapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        questionsView.setLayoutManager(layoutManager);
+        customGridLayoutManager = new CustomGridLayoutManager(QuestionActivity.this);
+      //  customGridLayoutManager.setScrollEnabled(false);
+        questionsView.setLayoutManager(customGridLayoutManager);
+
+
+        setSnapHelper();
+        setClickListeners();
+
+
 
         startTimer();
 
@@ -46,6 +91,47 @@ public class QuestionActivity extends AppCompatActivity {
         timerTV = findViewById(R.id.tv_timer);
         catNameTV = findViewById(R.id.qa_catName);
         submitB = findViewById(R.id.submitB);
+        nextB = findViewById(R.id.question_button_next);
+
+
+
+        quesID = 0;
+        tvQuesID.setText("1/" + String.valueOf(DbQuery.g_questList.size()));
+        catNameTV.setText(DbQuery.g_catList.get(DbQuery.g_selected_cat_index).getName());
+    }
+
+    void setSnapHelper()
+    {
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(questionsView);
+
+        questionsView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+//                View view = snapHelper.findSnapView(recyclerView.getLayoutManager());
+//                quesID = recyclerView.getLayoutManager().getPosition(view);
+//
+                if(countQuestion <= DbQuery.g_questList.size())
+                {
+                    tvQuesID.setText(String.valueOf(countQuestion++) + "/"
+                            + String.valueOf(DbQuery.g_questList.size()));
+
+                }
+
+
+
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                customGridLayoutManager.setScrollEnabled(false);
+
+            }
+        });
     }
 
     private void startTimer()
@@ -72,4 +158,28 @@ public class QuestionActivity extends AppCompatActivity {
         timer.start();
 
     }
+
+    private void setClickListeners()
+    {
+        nextB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(countQuestion <= DbQuery.g_questList.size())
+                {
+                    customGridLayoutManager.setScrollEnabled(true);
+                    questionsView.smoothScrollToPosition(countQuestion);
+
+                }
+
+
+
+            }
+        });
+
+
+    }
+
+
 }
+

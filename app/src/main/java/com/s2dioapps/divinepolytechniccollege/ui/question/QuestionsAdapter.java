@@ -47,6 +47,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+
         private TextView ques;
         private Button optionA, optionB, optionC, optionD, prevSelectedB;
 
@@ -130,7 +131,9 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
             }
         }
+
     }
+
 
 
 }
