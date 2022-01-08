@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.s2dioapps.divinepolytechniccollege.ui.category.CategoryModel;
+import com.s2dioapps.divinepolytechniccollege.ui.question.QuestionModel;
 import com.s2dioapps.divinepolytechniccollege.ui.test.TestModel;
 
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ public class DbQuery {
     public static List<CategoryModel> g_catList = new ArrayList<>();
     public static int g_selected_cat_index = 0;
     public static List<TestModel> g_testList = new ArrayList<>();
-
-
+    public static int g_selected_test_index = 0;
+    public static List<QuestionModel> g_questList = new ArrayList<>();
 
     public static void loadCategories(MyCompleteListener completeListener)
     {
@@ -109,6 +110,43 @@ public class DbQuery {
                     }
                 });
     }
+
+    public static void loadQuestions(MyCompleteListener completeListener)
+    {
+        g_questList.clear();
+        g_firestore.collection("Question")
+                .whereEqualTo("CATEGORY", g_catList.get(g_selected_cat_index).getDocID())
+                .whereEqualTo("TEST", g_testList.get(g_selected_test_index).getTestID())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(DocumentSnapshot doc: queryDocumentSnapshots)
+                        {
+                            g_questList.add(new QuestionModel(
+                                    doc.getString("QUESTION"),
+                                    doc.getString("A"),
+                                    doc.getString("B"),
+                                    doc.getString("C"),
+                                    doc.getString("D"),
+                                    doc.getLong("ANSWER").intValue(),
+                                    -1
+                            ));
+                        }
+
+                        completeListener.onSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.onFailure();
+                    }
+                });
+
+    }
+
+
 
 
 }

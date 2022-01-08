@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if(firebaseUser!=null)
+        if(firebaseUser!=null && Util.connectionAvailable(this))
         {
 
 //            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
@@ -146,6 +146,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
+        }else{
+            startActivity(new Intent(LoginActivity.this, NoInternetActivity.class));
         }
     }
 }

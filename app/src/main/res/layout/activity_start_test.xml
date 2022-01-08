@@ -6,16 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.test.StartTestActivity">
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_start_test"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/school_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/st_cat_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -31,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/st_test_no"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -91,6 +93,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/st_total_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5"
@@ -140,6 +143,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/st_best_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="80"
@@ -189,6 +193,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/st_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25 m"
