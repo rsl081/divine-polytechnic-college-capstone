@@ -41,7 +41,7 @@ public class DbQuery {
     public  static int g_usersCount = 0;
     public static boolean isMeOnTopList = false;
 
-    public static RankModel myPerformance = new RankModel(null,0,-1);
+    public static RankModel myPerformance = new RankModel("",0,-1);
 
     public static void loadCategories(MyCompleteListener completeListener)
     {
@@ -102,6 +102,8 @@ public class DbQuery {
                         myProfile.setEmail(documentSnapshot.getString(NodeNames.EMAIL));
 
                         myPerformance.setScore(Objects.requireNonNull(documentSnapshot.getLong("TOTAL_SCORE")).intValue());
+
+                        myPerformance.setName(documentSnapshot.getString(NodeNames.NAME));
 
                         completeListener.onSuccess();
 

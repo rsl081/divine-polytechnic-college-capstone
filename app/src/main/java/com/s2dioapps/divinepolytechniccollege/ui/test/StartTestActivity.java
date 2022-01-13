@@ -48,6 +48,7 @@ public class StartTestActivity extends AppCompatActivity {
         dialogText.setText("Loading...");
 
 
+
         loadQuestions(new MyCompleteListener() {
             @Override
             public void onSuccess() {
