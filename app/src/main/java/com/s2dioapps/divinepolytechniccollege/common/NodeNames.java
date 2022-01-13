@@ -11,5 +11,4 @@ public class NodeNames {
     public  static  final  String TOTAL_SCORE = "TOTAL_SCORE";
     public  static  final  String PHOTO = "PHOTO";
 
-
 }
