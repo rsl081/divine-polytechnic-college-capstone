@@ -1,6 +1,7 @@
 package com.s2dioapps.divinepolytechniccollege.ui.question;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import com.s2dioapps.divinepolytechniccollege.R;
 import com.s2dioapps.divinepolytechniccollege.common.DbQuery;
+import com.s2dioapps.divinepolytechniccollege.ui.score.ScoreActivity;
 import com.s2dioapps.divinepolytechniccollege.ui.test.TestModel;
 
 import java.util.concurrent.TimeUnit;
@@ -57,8 +60,10 @@ public class QuestionActivity extends AppCompatActivity {
     private int countQuestion = 1;
     boolean isScrollEnable;
 
-    //LinearLayoutManager layoutManager;
-    CustomGridLayoutManager customGridLayoutManager ;
+    CustomGridLayoutManager customGridLayoutManager;
+    CountDownTimer timer;
+
+    private long timeLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,9 +143,12 @@ public class QuestionActivity extends AppCompatActivity {
     {
         long totalTime = DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTime()*60*1000;
 
-        CountDownTimer timer = new CountDownTimer(totalTime + 1000, 1000) {
+        timer = new CountDownTimer(totalTime + 1000, 1000) {
             @Override
             public void onTick(long remainingTime) {
+
+                timeLeft = remainingTime;
+
                 @SuppressLint("DefaultLocale") String time = String.format("%02d:%02d min",
                         TimeUnit.MILLISECONDS.toMinutes(remainingTime),
                         TimeUnit.MILLISECONDS.toSeconds(remainingTime) -
@@ -152,6 +160,15 @@ public class QuestionActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+
+                Intent intent = new Intent(QuestionActivity.this, ScoreActivity.class);
+
+                long totalTime = DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTime()*60*1000;
+                intent.putExtra("TIME_TAKEN", totalTime - timeLeft);
+
+                startActivity(intent);
+
+                QuestionActivity.this.finish();
 
             }
         };
@@ -189,6 +206,46 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void submitTest()
     {
+        AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this);
+        builder.setCancelable(true);
+
+        View view = getLayoutInflater().inflate(R.layout.alert_dialog_layout, null);
+
+        Button cancelB = view.findViewById(R.id.cancelB);
+        Button confirmB = view.findViewById(R.id.confirmB);
+
+        builder.setView(view);
+
+        final AlertDialog alertDialog = builder.create();
+
+        cancelB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        confirmB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                timer.cancel();
+                alertDialog.dismiss();
+
+
+
+                Intent intent = new Intent(QuestionActivity.this, ScoreActivity.class);
+
+                long totalTime = (long) DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTime() *60*1000;
+                intent.putExtra("TIME_TAKEN", totalTime - timeLeft);
+
+                startActivity(intent);
+
+                QuestionActivity.this.finish();
+
+            }
+        });
+        alertDialog.show();
 
     }
 

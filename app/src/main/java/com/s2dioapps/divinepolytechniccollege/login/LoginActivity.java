@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 //                        progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
 
-                            DbQuery.loadCategories(new MyCompleteListener() {
+                            DbQuery.loadData(new MyCompleteListener() {
                                 @Override
                                 public void onSuccess() {
 
@@ -118,36 +118,36 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-//        if(firebaseUser!=null && Util.connectionAvailable(this))
-//        {
-//
-////            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-////                @Override
-////                public void onSuccess(InstanceIdResult instanceIdResult) {
-////                    Util.updateDeviceToken(LoginActivity.this, instanceIdResult.getToken() );
-////                }
-////            });
-//
-//            progressBar.setVisibility(View.VISIBLE);
-//            DbQuery.loadCategories(new MyCompleteListener() {
-//
+        if(firebaseUser!=null && Util.connectionAvailable(this))
+        {
+
+//            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
 //                @Override
-//                public void onSuccess() {
-//
-//                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                    finish();
-//
-//                }
-//
-//                @Override
-//                public void onFailure() {
-//                    progressBar.setVisibility(View.GONE);
-//                    Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+//                public void onSuccess(InstanceIdResult instanceIdResult) {
+//                    Util.updateDeviceToken(LoginActivity.this, instanceIdResult.getToken() );
 //                }
 //            });
-//
-//        }else{
-//            startActivity(new Intent(LoginActivity.this, NoInternetActivity.class));
-//        }
+
+            progressBar.setVisibility(View.VISIBLE);
+            DbQuery.loadData(new MyCompleteListener() {
+
+                @Override
+                public void onSuccess() {
+
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+
+                }
+
+                @Override
+                public void onFailure() {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }else{
+            startActivity(new Intent(LoginActivity.this, NoInternetActivity.class));
+        }
     }
 }

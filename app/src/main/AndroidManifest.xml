@@ -16,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DivinePolytechnicCollege">
         <activity
+            android:name=".ui.score.ScoreActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DivinePolytechnicCollege.NoActionBar"/>
+        <activity
             android:name=".ui.test.StartTestActivity"
             android:exported="false"
             android:theme="@style/Theme.DivinePolytechnicCollege.NoActionBar" />
