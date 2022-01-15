@@ -16,9 +16,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DivinePolytechnicCollege">
         <activity
+            android:name=".password.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.myprofile.MyProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.module.ModuleActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DivinePolytechnicCollege.NoActionBar" />
+        <activity
             android:name=".ui.score.ScoreActivity"
             android:exported="false"
-            android:theme="@style/Theme.DivinePolytechnicCollege.NoActionBar"/>
+            android:theme="@style/Theme.DivinePolytechnicCollege.NoActionBar" />
         <activity
             android:name=".ui.test.StartTestActivity"
             android:exported="false"

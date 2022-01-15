@@ -18,6 +18,8 @@ import com.google.firebase.firestore.WriteBatch;
 import com.s2dioapps.divinepolytechniccollege.login.ProfileModel;
 import com.s2dioapps.divinepolytechniccollege.ui.category.CategoryModel;
 import com.s2dioapps.divinepolytechniccollege.ui.leaderboard.RankModel;
+import com.s2dioapps.divinepolytechniccollege.ui.lesson.LessonModel;
+import com.s2dioapps.divinepolytechniccollege.ui.module.ModuleModel;
 import com.s2dioapps.divinepolytechniccollege.ui.question.QuestionModel;
 import com.s2dioapps.divinepolytechniccollege.ui.test.TestModel;
 
@@ -29,11 +31,16 @@ import java.util.Objects;
 public class DbQuery {
 
     public static FirebaseFirestore g_firestore;
+
     public static List<CategoryModel> g_catList = new ArrayList<>();
     public static int g_selected_cat_index = 0;
-
     public static List<TestModel> g_testList = new ArrayList<>();
-    public static ProfileModel myProfile = new ProfileModel("NA",null);
+
+    public static List<LessonModel> g_leList = new ArrayList<>();
+    public static int g_selected_lesson_index = 0;
+    public static List<ModuleModel> g_moduleList = new ArrayList<>();
+
+    public static ProfileModel myProfile = new ProfileModel(null,"NA",null);
 
     public static int g_selected_test_index = 0;
     public static List<QuestionModel> g_questList = new ArrayList<>();
@@ -42,6 +49,48 @@ public class DbQuery {
     public static boolean isMeOnTopList = false;
 
     public static RankModel myPerformance = new RankModel("",0,-1);
+
+    public static void loadLessons(MyCompleteListener completeListener) {
+
+        g_leList.clear();
+
+        g_firestore = FirebaseFirestore.getInstance();
+
+        g_firestore.collection("Lessons").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        Map<String, QueryDocumentSnapshot> docList = new ArrayMap<>();
+
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                        {
+                            docList.put(doc.getId(), doc);
+                        }
+
+                        QueryDocumentSnapshot catListDoc = docList.get("SUBJECTS");
+
+                        long catCount = catListDoc.getLong("COUNT");
+
+                        for(int i = 1; i <= catCount; i++)
+                        {
+                            String catID = catListDoc.getString("SUB" + String.valueOf(i) + "_ID");
+
+                            QueryDocumentSnapshot catDoc = docList.get(catID);
+
+                            int noOfTest = catDoc.getLong("NO_OF_MODULES").intValue();
+
+                            String catName = catDoc.getString("NAME");
+
+                            g_leList.add(new LessonModel(catID, catName, noOfTest));
+
+                        }
+
+                        completeListener.onSuccess();
+
+                    }
+                });
+    }
 
     public static void loadCategories(MyCompleteListener completeListener)
     {
@@ -100,6 +149,7 @@ public class DbQuery {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         myProfile.setName(documentSnapshot.getString(NodeNames.NAME));
                         myProfile.setEmail(documentSnapshot.getString(NodeNames.EMAIL));
+                        myProfile.setPhoto(documentSnapshot.getString(NodeNames.PHOTO));
 
                         myPerformance.setScore(Objects.requireNonNull(documentSnapshot.getLong("TOTAL_SCORE")).intValue());
 
@@ -129,6 +179,18 @@ public class DbQuery {
 
                         getUsersCount(completeListener);
 
+                        loadLessons(new MyCompleteListener() {
+                            @Override
+                            public void onSuccess() {
+                                completeListener.onSuccess();
+                            }
+
+                            @Override
+                            public void onFailure() {
+                                completeListener.onFailure();
+                            }
+                        });
+
                     }
 
                     @Override
@@ -143,6 +205,44 @@ public class DbQuery {
                 completeListener.onFailure();
             }
         });
+
+
+    }
+
+    public static void loadModuleData(MyCompleteListener completeListener)
+    {
+        g_moduleList.clear();
+
+        g_firestore = FirebaseFirestore.getInstance();
+
+        g_firestore.collection("Lessons").document(g_leList.get(g_selected_lesson_index)
+                .getDocID()).collection("MODULE_LIST").document("MODULE_INFO")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        int noOfTests = g_leList.get(g_selected_lesson_index).getOnOfModules();
+
+                        for(int i = 1; i <= noOfTests; i++)
+                        {
+                            g_moduleList.add(new ModuleModel(
+                                    documentSnapshot.getString("MODULE"+ String.valueOf(i) + "_ID")
+                            ));
+
+                        }
+
+                        completeListener.onSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.onFailure();
+                    }
+                });
+
+
     }
 
 

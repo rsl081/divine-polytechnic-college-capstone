@@ -1,8 +1,13 @@
 package com.s2dioapps.divinepolytechniccollege.login;
 
+import android.net.Uri;
+
+import java.sql.Blob;
+
 public class ProfileModel {
 
-    public ProfileModel(String name, String email) {
+    public ProfileModel(String photo, String name, String email) {
+        this.photo = photo;
         this.name = name;
         this.email = email;
     }
@@ -19,12 +24,21 @@ public class ProfileModel {
         return email;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
     String name;
     String email;
+    String photo;
 
 
 }

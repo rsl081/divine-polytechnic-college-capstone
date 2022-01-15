@@ -8,14 +8,19 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,13 +35,19 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.rpc.context.AttributeContext;
 import com.s2dioapps.divinepolytechniccollege.R;
+import com.s2dioapps.divinepolytechniccollege.common.DbQuery;
 import com.s2dioapps.divinepolytechniccollege.common.NodeNames;
 import com.s2dioapps.divinepolytechniccollege.login.LoginActivity;
+import com.s2dioapps.divinepolytechniccollege.ui.myprofile.MyProfileActivity;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class SignupActivity extends AppCompatActivity {
@@ -50,6 +61,12 @@ public class SignupActivity extends AppCompatActivity {
     private StorageReference fileStorage;
     private Uri localFileUri, serverFileUri;
     private View progressBar;
+
+    public String getURLForResource (int resourceId) {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        //return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
+        return Uri.parse(String.valueOf(resourceId)).toString();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +84,11 @@ public class SignupActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         firestore = FirebaseFirestore.getInstance();
+
+        //Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.default_profile);
+        String str = getURLForResource(R.drawable.default_profile);
+
+        Log.e("HAPPY", str);
 
     }
 
@@ -136,7 +158,7 @@ public class SignupActivity extends AppCompatActivity {
 
                             userHashMap.put(NodeNames.NAME, etName.getText().toString().trim());
                             userHashMap.put(NodeNames.EMAIL, etEmail.getText().toString().trim());
-                            userHashMap.put(NodeNames.PHOTO, serverFileUri.getPath());
+                            userHashMap.put(NodeNames.PHOTO, fileRef.getPath());
                             userHashMap.put(NodeNames.TOTAL_SCORE, 0);
 
                             DocumentReference userDoc = firestore.collection(NodeNames.USERS)
