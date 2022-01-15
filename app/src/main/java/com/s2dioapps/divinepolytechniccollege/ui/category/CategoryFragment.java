@@ -21,7 +21,6 @@ public class CategoryFragment extends Fragment {
 
     private GridView catView;
 
-
     public CategoryFragment() {
         // Required empty public constructor
     }
