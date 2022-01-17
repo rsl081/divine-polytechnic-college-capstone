@@ -39,6 +39,8 @@
     <string name="change_picture">Change Picture</string>
     <string name="remove_picture">Remove Picture</string>
     <string name="photo_removed_successfully">Photo Removed Successfully</string>
+    <string name="password_changed_successfully">Password Changed Successfully</string>
+    <string name="something_went_wrong">Something went wrong : %1$s</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

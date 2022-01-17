@@ -1,27 +1,70 @@
 package com.s2dioapps.divinepolytechniccollege.ui.module;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.WriteBatch;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.s2dioapps.divinepolytechniccollege.R;
+import com.s2dioapps.divinepolytechniccollege.common.DbQuery;
+import com.s2dioapps.divinepolytechniccollege.common.MyCompleteListener;
+import com.s2dioapps.divinepolytechniccollege.common.NodeNames;
+import com.s2dioapps.divinepolytechniccollege.login.LoginActivity;
+import com.s2dioapps.divinepolytechniccollege.signup.SignupActivity;
+import com.s2dioapps.divinepolytechniccollege.ui.myprofile.MyProfileActivity;
+import com.s2dioapps.divinepolytechniccollege.ui.test.StartTestActivity;
 import com.s2dioapps.divinepolytechniccollege.ui.test.TestAdapter;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder> {
 
     private List<ModuleModel> moduleList;
+//    private int ctr = 1;
 
-    public ModuleAdapter(List<ModuleModel> moduleList) {
+    private MyInterface mInterface;
+
+    interface MyInterface {
+        void someEvent();
+    }
+
+
+    public ModuleAdapter(List<ModuleModel> moduleList, MyInterface i) {
+
         this.moduleList = moduleList;
+        mInterface = i;
+
     }
 
     @NonNull
@@ -35,7 +78,10 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setData(position);
+        String pdf = moduleList.get(position).getModulePDF();
+        String name = moduleList.get(position).getModuleID();
+        int countModule = moduleList.get(position).getCount();
+        holder.setData(position, pdf, name, mInterface, countModule);
     }
 
     @Override
@@ -49,6 +95,7 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
 
         private TextView topScore;
         private ProgressBar progressBar;
+        private View bg;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,14 +104,89 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
 
             topScore = itemView.findViewById(R.id.scoretext);
             progressBar = itemView.findViewById(R.id.testProgressbar);
+            bg = itemView.findViewById(R.id.bg_ll);
 
         }
 
-        private void setData(int pos)
-        {
+        private void setData(int pos, String pdf, String name, ModuleAdapter.MyInterface myInterface, int count)  {
             moduleNo.setText("Module No : " + String.valueOf(pos + 1));
-            topScore.setVisibility(View.GONE);
+            topScore.setText(name);
             progressBar.setVisibility(View.GONE);
+
+            if(count == pos && count <= moduleList.size())
+            {
+                itemView.setEnabled(false);
+                bg.setBackgroundColor(Color.parseColor("#E0E0E0"));
+            }else{
+                itemView.setEnabled(true);
+
+                bg.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+
+            }
+
+
+            // Create a reference from an HTTPS URL
+            // Note that in the URL, characters are URL escaped!
+            StorageReference httpsReference = FirebaseStorage.getInstance().getReferenceFromUrl(pdf);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("IntentReset")
+                @Override
+                public void onClick(View v) {
+
+                    myInterface.someEvent();
+
+                    DbQuery.g_selected_lesson_index = pos;
+                    if(count-1 == pos)
+                    {
+                        DbQuery.g_count++;
+                        DbQuery.saveModuleCount();
+                    }
+
+
+                    try {
+
+                        File localFile = File.createTempFile("tempfile",".pdf");
+                        httpsReference.getDownloadUrl()
+                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        //progressDialog.dismiss();
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+
+                                        Log.e("HAPPY", String.valueOf(uri));
+
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setType("application/pdf");
+                                        intent.setData(uri);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                        itemView.getContext().startActivity(intent);
+
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
+
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
+                }
+            });
+
+
+
 
         }
     }

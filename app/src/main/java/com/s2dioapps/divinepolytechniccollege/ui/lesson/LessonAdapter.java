@@ -65,6 +65,7 @@ public class LessonAdapter extends BaseAdapter {
 
         }
 
+
         myView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
