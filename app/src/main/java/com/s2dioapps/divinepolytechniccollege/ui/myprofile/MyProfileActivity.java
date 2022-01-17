@@ -3,6 +3,7 @@ package com.s2dioapps.divinepolytechniccollege.ui.myprofile;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -72,12 +73,19 @@ public class MyProfileActivity extends AppCompatActivity {
     private Dialog progressDialog;
     private TextView dialogText;
 
+    Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
+
+        toolbar = findViewById(R.id.toolbar_myprofile);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         etEmail = findViewById(R.id.etEmail);
         etName = findViewById(R.id.etName);
@@ -121,6 +129,8 @@ public class MyProfileActivity extends AppCompatActivity {
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                 progressDialog.dismiss();
                                 Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+
+                                Log.e("HAPPY", String.valueOf(bitmap));
 
                                 Glide.with(MyProfileActivity.this)
                                     .load(bitmap)
@@ -434,6 +444,17 @@ public class MyProfileActivity extends AppCompatActivity {
     public  void btnChangePasswordClick(View view)
     {
         startActivity(new Intent(MyProfileActivity.this, ChangePasswordActivity.class));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home)
+        {
+            MyProfileActivity.this.finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

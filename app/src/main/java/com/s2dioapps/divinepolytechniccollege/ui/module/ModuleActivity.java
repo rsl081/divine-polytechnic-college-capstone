@@ -56,11 +56,23 @@ public class ModuleActivity extends AppCompatActivity {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         testView.setLayoutManager(layoutManager);
 
+
         DbQuery.loadModuleData(new MyCompleteListener() {
             @Override
             public void onSuccess() {
 
-                adapter = new ModuleAdapter(DbQuery.g_moduleList);
+                adapter = new ModuleAdapter(DbQuery.g_moduleList,new ModuleAdapter.MyInterface() {
+
+                    @Override
+                    public void someEvent() {
+
+                        adapter.notifyDataSetChanged();
+
+                    }
+
+
+                });
+
                 testView.setAdapter(adapter);
 
                 progressDialog.dismiss();
@@ -76,6 +88,11 @@ public class ModuleActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void AdapterNotify()
+    {
+        adapter.notifyDataSetChanged();
     }
 
     @Override
