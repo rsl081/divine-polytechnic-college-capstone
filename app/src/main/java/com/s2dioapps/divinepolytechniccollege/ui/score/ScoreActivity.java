@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.s2dioapps.divinepolytechniccollege.MainActivity;
 import com.s2dioapps.divinepolytechniccollege.R;
 import com.s2dioapps.divinepolytechniccollege.common.DbQuery;
 import com.s2dioapps.divinepolytechniccollege.common.MyCompleteListener;
+import com.s2dioapps.divinepolytechniccollege.ui.leaderboard.LeaderboardFragment;
 import com.s2dioapps.divinepolytechniccollege.ui.test.TestActivity;
 
 import java.util.concurrent.TimeUnit;
@@ -58,6 +60,14 @@ public class ScoreActivity extends AppCompatActivity {
 
         loadData();
 
+        leaderB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ScoreActivity.this, MainActivity.class));
+                finish();
+            }
+        });
+
         saveResult();
     }
 
@@ -70,7 +80,6 @@ public class ScoreActivity extends AppCompatActivity {
         wrongQTV = findViewById(R.id.wrongQ);
         unattemptedQTV = findViewById(R.id.un_attempted);
         leaderB = findViewById(R.id.leaderB);
-        viewAnsB = findViewById(R.id.view_answerB);
     }
 
     private void loadData()
@@ -100,6 +109,7 @@ public class ScoreActivity extends AppCompatActivity {
         totalQTV.setText(String.valueOf(DbQuery.g_questList.size()));
 
         finalScore = (correctQ*100)/DbQuery.g_questList.size();
+
         scoreTV.setText(String.valueOf(finalScore));
 
         timeTaken = getIntent().getLongExtra("TIME_TAKEN",0);

@@ -22,6 +22,8 @@ import com.s2dioapps.divinepolytechniccollege.common.MyCompleteListener;
 import com.s2dioapps.divinepolytechniccollege.common.Util;
 import com.s2dioapps.divinepolytechniccollege.password.ResetPasswordActivity;
 import com.s2dioapps.divinepolytechniccollege.signup.SignupActivity;
+import com.s2dioapps.divinepolytechniccollege.ui.test.TestActivity;
+import com.s2dioapps.divinepolytechniccollege.ui.test.TestAdapter;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -38,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         etPassword= findViewById(R.id.etPassword);
 
         progressBar = findViewById(R.id.progressBar);
-
 
 
     }
@@ -137,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
 
-                }
+                }//end of loadData
 
                 @Override
                 public void onFailure() {

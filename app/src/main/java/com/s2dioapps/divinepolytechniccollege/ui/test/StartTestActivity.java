@@ -47,6 +47,8 @@ public class StartTestActivity extends AppCompatActivity {
         dialogText = progressDialog.findViewById(R.id.dialog_text);
         dialogText.setText("Loading...");
 
+        progressDialog.show();
+
 
 
         loadQuestions(new MyCompleteListener() {
