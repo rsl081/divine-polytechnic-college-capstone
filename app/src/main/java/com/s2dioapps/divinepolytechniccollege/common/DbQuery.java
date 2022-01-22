@@ -50,6 +50,7 @@ public class DbQuery {
     public static boolean isMeOnTopList = false;
 
     public static RankModel myPerformance = new RankModel("",0,-1);
+    static int value = 0;
 
     public static void loadLessons(MyCompleteListener completeListener) {
 
@@ -191,6 +192,19 @@ public class DbQuery {
                                 completeListener.onFailure();
                             }
                         });
+
+                        loadTestData(new MyCompleteListener() {
+                            @Override
+                            public void onSuccess() {
+                                completeListener.onSuccess();
+                            }
+
+                            @Override
+                            public void onFailure() {
+                                completeListener.onFailure();
+                            }
+                        });
+
 
                     }
 
@@ -438,17 +452,21 @@ public class DbQuery {
     {
         WriteBatch batch = DbQuery.g_firestore.batch();
 
-        DocumentReference userDoc = DbQuery.g_firestore.collection("Users").document(FirebaseAuth.getInstance().getUid());
-        batch.update(userDoc, "TOTAL_SCORE", score);
 
         if(score > DbQuery.g_testList.get(DbQuery.g_selected_test_index).getTopScore())
         {
-            DocumentReference scoreDoc = userDoc.collection("USER_DATA").document("MY_SCORES");
+            DocumentReference userDoc = DbQuery.g_firestore.collection("Users").document(FirebaseAuth.getInstance().getUid());
+            value = value + score;
+            batch.update(userDoc, "TOTAL_SCORE", value);
+
+            DocumentReference scoreDoc = userDoc.collection("USER_DATA")
+                    .document("MY_SCORES");
 
             Map<String, Object> testData = new ArrayMap<>();
             testData.put(g_testList.get(g_selected_test_index).getTestID(), score);
 
             batch.set(scoreDoc, testData, SetOptions.merge());
+
         }
 
         batch.commit()

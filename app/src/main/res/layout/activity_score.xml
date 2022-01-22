@@ -307,7 +307,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:text="Check Your Ranking in Leaderboard"
+            android:text="Go Back To Home and Check Your Ranking in Leaderboard"
             android:drawableRight="@drawable/ic_baseline_chevron_right_24"
             android:drawablePadding="16dp"
             android:layout_marginLeft="16dp"
@@ -323,26 +323,26 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        >-->
 
-        <Button
-            android:id="@+id/view_answerB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="VIEW ANSWER"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:elevation="5dp"
-            />
+<!--        <Button-->
+<!--            android:id="@+id/view_answerB"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="VIEW ANSWER"-->
+<!--            android:layout_weight="1"-->
+<!--            android:textSize="16sp"-->
+<!--            android:elevation="5dp"-->
+<!--            />-->
 
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 
 

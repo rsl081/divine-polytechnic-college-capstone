@@ -29,12 +29,14 @@
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/app/src/main/res/menu/activity_main_drawer.xml" value="0.1" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/app/src/main/res/menu/main.xml" value="0.1" />
+        <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/drawable/card_border.xml" value="0.23692307692307693" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/drawable/ic_baseline_chevron_right_24.xml" value="0.2657407407407407" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.15364583333333334" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/drawable/round_view.xml" value="0.2657407407407407" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/drawable/selected_btn.xml" value="0.2037037037037037" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/drawable/unselected_btn.xml" value="0.2037037037037037" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_change_password.xml" value="0.5" />
+        <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_login.xml" value="0.20199275362318841" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_module.xml" value="0.18795289855072464" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_my_profile.xml" value="0.33" />
@@ -42,11 +44,15 @@
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_question.xml" value="0.22" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_reset_password.xml" value="0.20516304347826086" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_score.xml" value="0.25" />
+        <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_signup.xml" value="0.14260385005065856" />
+        <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_splash.xml" value="0.14260385005065856" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_start_test.xml" value="0.25" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/activity_test.xml" value="0.14260385005065856" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/alert_dialog_layout.xml" value="0.33" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/cat_item_layout.xml" value="0.25" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/content_main.xml" value="0.14260385005065856" />
+        <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/custom_progressbar.xml" value="0.18704710144927536" />
+        <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/dialog_layout.xml" value="0.182518115942029" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/fragment_category.xml" value="0.14260385005065856" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/fragment_leaderboard.xml" value="0.2" />
         <entry key="..\:/Users/Rsl/Desktop/desktop/AndroidStudioProject/DivinePolytechnic/divine-polytechnic-college-capstone/app/src/main/res/layout/fragment_lesson.xml" value="0.14260385005065856" />
