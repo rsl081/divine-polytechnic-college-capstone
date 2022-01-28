@@ -277,7 +277,7 @@ public class SignupActivity extends AppCompatActivity {
                         }
                     });
         }
-    }
+    }//end of btnSignupClick
 
 
 }

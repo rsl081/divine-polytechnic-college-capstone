@@ -39,7 +39,6 @@ public class DbQuery {
     public static List<LessonModel> g_leList = new ArrayList<>();
     public static int g_selected_lesson_index = 0;
     public static List<ModuleModel> g_moduleList = new ArrayList<>();
-    public static int g_count = 1;
 
     public static ProfileModel myProfile = new ProfileModel(null,"NA",null);
 
@@ -434,14 +433,14 @@ public class DbQuery {
                 });
     }
 
-    public static void saveModuleCount()
+    public static void saveModuleCount(int count)
     {
-
+        count++;
         g_firestore = FirebaseFirestore.getInstance();
 
         g_firestore.collection("Lessons").document(g_leList.get(g_selected_lesson_index)
                 .getDocID()).collection("MODULE_LIST").document("MODULE_INFO")
-                .update("COUNT",g_count);
+                .update("COUNT",count);
 
 
     }
