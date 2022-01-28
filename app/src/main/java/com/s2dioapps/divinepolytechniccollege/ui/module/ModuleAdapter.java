@@ -81,6 +81,7 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
         String pdf = moduleList.get(position).getModulePDF();
         String name = moduleList.get(position).getModuleID();
         int countModule = moduleList.get(position).getCount();
+
         holder.setData(position, pdf, name, mInterface, countModule);
     }
 
@@ -113,14 +114,16 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
             topScore.setText(name);
             progressBar.setVisibility(View.GONE);
 
-            if(count == pos && count <= moduleList.size())
+            if((pos+(moduleList.size()-count)) < moduleList.size())
             {
+
+                itemView.setEnabled(true);
+                bg.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+
+            } else {
+
                 itemView.setEnabled(false);
                 bg.setBackgroundColor(Color.parseColor("#E0E0E0"));
-            }else{
-                itemView.setEnabled(true);
-
-                bg.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
 
             }
 
@@ -137,11 +140,13 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
 
                     myInterface.someEvent();
 
-                    DbQuery.g_selected_lesson_index = pos;
-                    if(count-1 == pos)
+                    //DbQuery.g_selected_lesson_index = pos;
+
+                    if((count-1) == pos)
                     {
-                        DbQuery.g_count++;
-                        DbQuery.saveModuleCount();
+                        //Toast.makeText(itemView.getContext(), "Goods", Toast.LENGTH_SHORT).show();
+
+                        DbQuery.saveModuleCount(count);
                     }
 
 
@@ -153,14 +158,15 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         //progressDialog.dismiss();
-                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+
+
 
                                         Log.e("HAPPY", String.valueOf(uri));
 
                                         Intent intent = new Intent(Intent.ACTION_VIEW);
                                         intent.setType("application/pdf");
                                         intent.setData(uri);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         itemView.getContext().startActivity(intent);
 
 
@@ -189,5 +195,7 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
 
 
         }
+
+
     }
 }
