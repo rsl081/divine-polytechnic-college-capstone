@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="150dp"
         android:gravity="center"
-        android:text="Divine Polytechnic College, Inc"
+        android:text="DivinE-Learning"
         android:textColor="@color/white"
         android:textSize="36sp"
         android:textStyle="bold"
