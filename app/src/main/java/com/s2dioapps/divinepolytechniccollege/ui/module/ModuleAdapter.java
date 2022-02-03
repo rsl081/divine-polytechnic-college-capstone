@@ -51,6 +51,7 @@ import java.util.List;
 public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder> {
 
     private List<ModuleModel> moduleList;
+    private List<UserLesson> userLessonList;
 //    private int ctr = 1;
 
     private MyInterface mInterface;
@@ -80,7 +81,15 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String pdf = moduleList.get(position).getModulePDF();
         String name = moduleList.get(position).getModuleID();
-        int countModule = moduleList.get(position).getCount();
+//        int countModule = moduleList.get(position).getCount();
+
+        //Maling code to repition nangyayare sa pag get ng number, bale brute force style to
+        int countModule = DbQuery.g_userlesson.get(DbQuery
+                .g_selected_lesson_index).getLessonNameCount();
+
+//        Log.e("USERLESSONNAME",
+//                String.valueOf(countModule));
+
 
         holder.setData(position, pdf, name, mInterface, countModule);
     }
