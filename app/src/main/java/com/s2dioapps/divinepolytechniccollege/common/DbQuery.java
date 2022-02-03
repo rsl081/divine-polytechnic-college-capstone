@@ -1,6 +1,7 @@
 package com.s2dioapps.divinepolytechniccollege.common;
 
 import android.util.ArrayMap;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -20,6 +21,7 @@ import com.s2dioapps.divinepolytechniccollege.ui.category.CategoryModel;
 import com.s2dioapps.divinepolytechniccollege.ui.leaderboard.RankModel;
 import com.s2dioapps.divinepolytechniccollege.ui.lesson.LessonModel;
 import com.s2dioapps.divinepolytechniccollege.ui.module.ModuleModel;
+import com.s2dioapps.divinepolytechniccollege.ui.module.UserLesson;
 import com.s2dioapps.divinepolytechniccollege.ui.question.QuestionModel;
 import com.s2dioapps.divinepolytechniccollege.ui.test.TestModel;
 
@@ -51,6 +53,8 @@ public class DbQuery {
     public static RankModel myPerformance = new RankModel("",0,-1);
     static int value = 0;
 
+    public static List<UserLesson> g_userlesson = new ArrayList<>();
+
     public static void loadLessons(MyCompleteListener completeListener) {
 
         g_leList.clear();
@@ -73,6 +77,15 @@ public class DbQuery {
 
                         long catCount = catListDoc.getLong("COUNT");
 
+                        WriteBatch batch = DbQuery.g_firestore.batch();
+
+                        DocumentReference userDoc = DbQuery.g_firestore.collection("Users").document(FirebaseAuth.getInstance().getUid());
+
+                        DocumentReference lessonDoc = userDoc.collection("USER_DATA")
+                                .document("LESSONS");
+
+                        Map<String, Object> lessonData = new ArrayMap<>();
+
                         for(int i = 1; i <= catCount; i++)
                         {
                             String catID = catListDoc.getString("SUB" + String.valueOf(i) + "_ID");
@@ -85,12 +98,26 @@ public class DbQuery {
 
                             g_leList.add(new LessonModel(catID, catName, noOfTest));
 
+
+                            if(g_userlesson.size() != 0)
+                            {
+                                lessonData.put(catName, 1);
+                            }
+
+
                         }
+
+                        lessonData.put("Count", catCount);
+
+                        batch.set(lessonDoc, lessonData, SetOptions.merge());
+                        batch.commit();
 
                         completeListener.onSuccess();
 
                     }
                 });
+
+
     }
 
     public static void loadCategories(MyCompleteListener completeListener)
@@ -179,30 +206,51 @@ public class DbQuery {
                     public void onSuccess() {
 
                         getUsersCount(completeListener);
+                        loadTestData(completeListener);
+                        loadLessons(completeListener);
+                        loadUserLesson(completeListener);
+                        
 
-                        loadLessons(new MyCompleteListener() {
-                            @Override
-                            public void onSuccess() {
-                                completeListener.onSuccess();
-                            }
+//                        loadTestData(new MyCompleteListener() {
+//                            @Override
+//                            public void onSuccess() {
+//
+//                                loadLessons(new MyCompleteListener() {
+//                                    @Override
+//                                    public void onSuccess() {
+//
+//                                        loadUserLesson(new MyCompleteListener() {
+//                                            @Override
+//                                            public void onSuccess() {
+//                                                completeListener.onSuccess();
+//                                            }
+//
+//                                            @Override
+//                                            public void onFailure() {
+//
+//                                                completeListener.onFailure();
+//
+//                                            }
+//                                        });
+//
+//                                        completeListener.onSuccess();
+//                                    }
+//
+//                                    @Override
+//                                    public void onFailure() {
+//                                        completeListener.onFailure();
+//                                    }
+//                                });
+//
+//                                completeListener.onSuccess();
+//                            }
+//
+//                            @Override
+//                            public void onFailure() {
+//                                completeListener.onFailure();
+//                            }
+//                        });
 
-                            @Override
-                            public void onFailure() {
-                                completeListener.onFailure();
-                            }
-                        });
-
-                        loadTestData(new MyCompleteListener() {
-                            @Override
-                            public void onSuccess() {
-                                completeListener.onSuccess();
-                            }
-
-                            @Override
-                            public void onFailure() {
-                                completeListener.onFailure();
-                            }
-                        });
 
 
                     }
@@ -222,6 +270,45 @@ public class DbQuery {
 
 
     }
+
+
+
+    public static void loadUserLesson(MyCompleteListener completeListener)
+    {
+        g_userlesson.clear();
+
+        g_firestore = FirebaseFirestore.getInstance();
+
+        g_firestore.collection("Users").document(FirebaseAuth.getInstance().getUid())
+                .collection("USER_DATA").document("LESSONS")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        int count = documentSnapshot.getLong("Count").intValue();
+
+                        for(int i = 0; i < count; i++)
+                        {
+
+                            g_userlesson.add(new UserLesson(
+                                    documentSnapshot.getLong(g_leList.get(i).getName())
+                                            .intValue()));
+                        }
+
+
+                        completeListener.onSuccess();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.onFailure();
+                    }
+                });
+    }
+
 
     public static void loadModuleData(MyCompleteListener completeListener)
     {
@@ -438,12 +525,18 @@ public class DbQuery {
         count++;
         g_firestore = FirebaseFirestore.getInstance();
 
-        g_firestore.collection("Lessons").document(g_leList.get(g_selected_lesson_index)
-                .getDocID()).collection("MODULE_LIST").document("MODULE_INFO")
-                .update("COUNT",count);
+//        g_firestore.collection("Lessons").document(g_leList.get(g_selected_lesson_index)
+//                .getDocID()).collection("MODULE_LIST").document("MODULE_INFO")
+//                .update("COUNT",count);
+
+        g_firestore.collection("Users").document(FirebaseAuth.getInstance().getUid())
+                        .collection("USER_DATA").document("LESSONS")
+                        .update(g_leList.get(g_selected_lesson_index).getName(),count);
 
 
     }
+
+//    public static void count
 
 
 
