@@ -42,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import com.google.rpc.context.AttributeContext;
 import com.s2dioapps.divinepolytechniccollege.R;
 import com.s2dioapps.divinepolytechniccollege.common.DbQuery;
+import com.s2dioapps.divinepolytechniccollege.common.MyCompleteListener;
 import com.s2dioapps.divinepolytechniccollege.common.NodeNames;
 import com.s2dioapps.divinepolytechniccollege.login.LoginActivity;
 import com.s2dioapps.divinepolytechniccollege.ui.myprofile.MyProfileActivity;
@@ -175,16 +176,30 @@ public class SignupActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void unused) {
 
-                                    Toast.makeText(SignupActivity.this, R.string.user_created_successfully, Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-                                    finish();
+                                    DbQuery.CountLessons(new MyCompleteListener() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                            Toast.makeText(SignupActivity.this, R.string.user_created_successfully, Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                                            finish();
+
+                                        }
+
+                                        @Override
+                                        public void onFailure() {
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+                                    });
+
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
+                                    progressBar.setVisibility(View.GONE);
                                     Toast.makeText(SignupActivity.this,
-                                            getString(R.string.failed_to_update_profile, e.getMessage()), Toast.LENGTH_SHORT).show();
+                                            getString(R.string.failed_to_update_profile, e.getMessage()), Toast.LENGTH_LONG).show();
                                 }
                             });
 
@@ -217,15 +232,29 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void unused) {
 
-                Toast.makeText(SignupActivity.this, R.string.user_created_successfully, Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                DbQuery.CountLessons(new MyCompleteListener() {
+                    @Override
+                    public void onSuccess() {
+
+                        Toast.makeText(SignupActivity.this, R.string.user_created_successfully, Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+
 
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(SignupActivity.this,
-                            getString(R.string.failed_to_update_profile, e.getMessage()), Toast.LENGTH_SHORT).show();
+                            getString(R.string.failed_to_update_profile, e.getMessage()), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -271,6 +300,7 @@ public class SignupActivity extends AppCompatActivity {
                                 }
 
                             } else {
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(SignupActivity.this,
                                         getString(R.string.signup_failed, task.getException()), Toast.LENGTH_SHORT).show();
                             }

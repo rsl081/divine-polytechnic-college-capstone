@@ -81,6 +81,19 @@ public class LoginActivity extends AppCompatActivity {
 
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     finish();
+//                                    DbQuery.CountLessons(new MyCompleteListener() {
+//                                        @Override
+//                                        public void onSuccess() {
+//
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onFailure() {
+//
+//                                        }
+//                                    });
+
 
                                 }
 
