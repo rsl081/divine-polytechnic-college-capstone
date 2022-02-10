@@ -59,7 +59,7 @@ public class QuestionActivity extends AppCompatActivity {
     private Button submitB, nextB;
     private int quesID;
     private int countQuestion = 1;
-    boolean isScrollEnable;
+    boolean isScrollEnable = true;
 
     CustomGridLayoutManager customGridLayoutManager;
     CountDownTimer timer;
@@ -80,17 +80,10 @@ public class QuestionActivity extends AppCompatActivity {
       //  customGridLayoutManager.setScrollEnabled(false);
         questionsView.setLayoutManager(customGridLayoutManager);
 
-
         setSnapHelper();
         setClickListeners();
 
-
-
         startTimer();
-
-
-        Log.e("OI", String.valueOf(countQuestion));
-        Log.e("OI", String.valueOf(DbQuery.g_questList.size()));
 
     }
 
@@ -103,8 +96,6 @@ public class QuestionActivity extends AppCompatActivity {
         submitB = findViewById(R.id.submitB);
         nextB = findViewById(R.id.question_button_next);
 
-
-
         quesID = 0;
         tvQuesID.setText("1/" + String.valueOf(DbQuery.g_questList.size()));
         catNameTV.setText(DbQuery.g_catList.get(DbQuery.g_selected_cat_index).getName());
@@ -116,6 +107,7 @@ public class QuestionActivity extends AppCompatActivity {
         snapHelper.attachToRecyclerView(questionsView);
 
         questionsView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -123,10 +115,11 @@ public class QuestionActivity extends AppCompatActivity {
 //                View view = snapHelper.findSnapView(recyclerView.getLayoutManager());
 //                quesID = recyclerView.getLayoutManager().getPosition(view);
 //
-                if(countQuestion <= DbQuery.g_questList.size())
+                if(countQuestion <= DbQuery.g_questList.size() && isScrollEnable)
                 {
-                    tvQuesID.setText(String.valueOf(countQuestion++) + "/"
+                    tvQuesID.setText(String.valueOf(++countQuestion) + "/"
                             + String.valueOf(DbQuery.g_questList.size()));
+                    isScrollEnable = false;
 
                 }
 
@@ -135,9 +128,6 @@ public class QuestionActivity extends AppCompatActivity {
                     nextB.setVisibility(View.INVISIBLE);
 
                 }
-
-
-
 
             }
 
@@ -184,6 +174,7 @@ public class QuestionActivity extends AppCompatActivity {
 
             }
         };
+
         timer.start();
 
     }
@@ -198,11 +189,9 @@ public class QuestionActivity extends AppCompatActivity {
                 {
                     customGridLayoutManager.setScrollEnabled(true);
                     questionsView.smoothScrollToPosition(countQuestion);
+                    isScrollEnable = true;
 
                 }
-
-
-
 
             }
         });
