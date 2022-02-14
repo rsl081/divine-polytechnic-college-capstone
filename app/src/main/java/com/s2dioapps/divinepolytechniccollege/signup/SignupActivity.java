@@ -51,6 +51,8 @@ import com.s2dioapps.divinepolytechniccollege.ui.myprofile.MyProfileActivity;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -63,6 +65,8 @@ public class SignupActivity extends AppCompatActivity {
     private StorageReference fileStorage;
     private Uri localFileUri, serverFileUri;
     private View progressBar;
+
+    Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
 
     public String getURLForResource (int resourceId) {
         //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
@@ -267,6 +271,9 @@ public class SignupActivity extends AppCompatActivity {
         password = etPassword.getText().toString().trim();
         confirmPassword = etConfirmPassword.getText().toString().trim();
 
+        Matcher m = p.matcher(password);
+        boolean hasSpecialChar = m.find();
+
         if (email.equals("")) {
             etEmail.setError(getString(R.string.enter_email));
         } else if (name.equals("")) {
@@ -279,6 +286,8 @@ public class SignupActivity extends AppCompatActivity {
             etEmail.setError(getString(R.string.enter_correct_email));
         } else if (!password.equals(confirmPassword)) {
             etConfirmPassword.setError(getString(R.string.password_mismatch));
+        } else if(!hasSpecialChar){
+            etPassword.setError("Please input special character");
         } else {
 
             progressBar.setVisibility(View.VISIBLE);
