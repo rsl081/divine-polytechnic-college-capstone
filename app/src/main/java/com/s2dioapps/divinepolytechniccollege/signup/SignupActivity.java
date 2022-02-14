@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -89,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
         //Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.default_profile);
         String str = getURLForResource(R.drawable.default_profile);
 
-        Log.e("HAPPY", str);
+
 
     }
 
@@ -180,7 +181,8 @@ public class SignupActivity extends AppCompatActivity {
                                         @Override
                                         public void onSuccess() {
 
-                                            Toast.makeText(SignupActivity.this, R.string.user_created_successfully, Toast.LENGTH_LONG).show();
+                                            //Toast.makeText(SignupActivity.this, R.string.user_created_successfully, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(SignupActivity.this, "Verified your email address now", Toast.LENGTH_LONG).show();
                                             startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                                             finish();
 
@@ -236,7 +238,7 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
 
-                        Toast.makeText(SignupActivity.this, R.string.user_created_successfully, Toast.LENGTH_LONG).show();
+                        Toast.makeText(SignupActivity.this, "Verified your email address now", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(SignupActivity.this, LoginActivity.class));
 
                     }
@@ -288,6 +290,8 @@ public class SignupActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
 //                            progressBar.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
+
+                                firebaseAuth.getCurrentUser().sendEmailVerification();
 
                                 if(localFileUri!=null) {
 
