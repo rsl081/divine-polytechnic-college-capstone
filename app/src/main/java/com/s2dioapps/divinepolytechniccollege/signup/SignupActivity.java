@@ -287,7 +287,8 @@ public class SignupActivity extends AppCompatActivity {
         } else if (!password.equals(confirmPassword)) {
             etConfirmPassword.setError(getString(R.string.password_mismatch));
         } else if(!hasSpecialChar){
-            etPassword.setError("Please input special character");
+            etPassword.setError("Password must contain numbers, letters and special characters.");
+            Toast.makeText(this, "Password must contain numbers, letters and special characters.", Toast.LENGTH_SHORT).show();
         } else {
 
             progressBar.setVisibility(View.VISIBLE);
