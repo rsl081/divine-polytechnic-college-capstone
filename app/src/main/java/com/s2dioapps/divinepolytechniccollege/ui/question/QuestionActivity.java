@@ -56,7 +56,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     private RecyclerView questionsView;
     private TextView tvQuesID, timerTV, catNameTV;
-    private Button submitB, nextB;
+    private Button submitB, nextB, prevB;
     private int quesID;
     private int countQuestion = 1;
     boolean isScrollEnable = true;
@@ -76,9 +76,9 @@ public class QuestionActivity extends AppCompatActivity {
         QuestionsAdapter questionsAdapter = new QuestionsAdapter(DbQuery.g_questList);
         questionsView.setAdapter(questionsAdapter);
 
-        customGridLayoutManager = new CustomGridLayoutManager(QuestionActivity.this);
-      //  customGridLayoutManager.setScrollEnabled(false);
-        questionsView.setLayoutManager(customGridLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        questionsView.setLayoutManager(layoutManager);
 
         setSnapHelper();
         setClickListeners();
@@ -95,6 +95,7 @@ public class QuestionActivity extends AppCompatActivity {
         catNameTV = findViewById(R.id.qa_catName);
         submitB = findViewById(R.id.submitB);
         nextB = findViewById(R.id.question_button_next);
+        prevB = findViewById(R.id.question_button_prev);
 
         quesID = 0;
         tvQuesID.setText("1/" + String.valueOf(DbQuery.g_questList.size()));
@@ -112,22 +113,10 @@ public class QuestionActivity extends AppCompatActivity {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-//                View view = snapHelper.findSnapView(recyclerView.getLayoutManager());
-//                quesID = recyclerView.getLayoutManager().getPosition(view);
-//
-                if(countQuestion <= DbQuery.g_questList.size() && isScrollEnable)
-                {
-                    tvQuesID.setText(String.valueOf(++countQuestion) + "/"
-                            + String.valueOf(DbQuery.g_questList.size()));
-                    isScrollEnable = false;
+                View view = snapHelper.findSnapView(recyclerView.getLayoutManager());
+                quesID = recyclerView.getLayoutManager().getPosition(view);
 
-                }
-
-                if(countQuestion == DbQuery.g_questList.size())
-                {
-                    nextB.setVisibility(View.INVISIBLE);
-
-                }
+                tvQuesID.setText(String.valueOf(quesID + 1) + "/" + String.valueOf(DbQuery.g_questList.size()));
 
             }
 
@@ -135,7 +124,7 @@ public class QuestionActivity extends AppCompatActivity {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                customGridLayoutManager.setScrollEnabled(false);
+                //customGridLayoutManager.setScrollEnabled(false);
 
             }
         });
@@ -181,16 +170,23 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void setClickListeners()
     {
+        prevB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(quesID > 0)
+                {
+                    questionsView.smoothScrollToPosition(quesID - 1);
+                }
+            }
+        });
+
         nextB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(countQuestion <= DbQuery.g_questList.size())
+                if(quesID < DbQuery.g_questList.size() - 1)
                 {
-                    customGridLayoutManager.setScrollEnabled(true);
-                    questionsView.smoothScrollToPosition(countQuestion);
-                    isScrollEnable = true;
-
+                    questionsView.smoothScrollToPosition(quesID + 1);
                 }
 
             }
@@ -217,6 +213,18 @@ public class QuestionActivity extends AppCompatActivity {
 
         Button cancelB = view.findViewById(R.id.cancelB);
         Button confirmB = view.findViewById(R.id.confirmB);
+        TextView content = view.findViewById(R.id.content);
+
+        int unattemptQ = 0;
+
+        for(int i = 0; i < DbQuery.g_questList.size(); i++)
+        {
+            if (DbQuery.g_questList.get(i).getSelectedAns() == -1) {
+                unattemptQ++;
+            }
+        }
+
+        content.setText("You have unanswered "+ String.valueOf(unattemptQ) +" question/s. Are you sure you want to submit?");
 
         builder.setView(view);
 
@@ -235,7 +243,6 @@ public class QuestionActivity extends AppCompatActivity {
 
                 timer.cancel();
                 alertDialog.dismiss();
-
 
 
                 Intent intent = new Intent(QuestionActivity.this, ScoreActivity.class);
